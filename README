@@ -1,0 +1,21 @@
+Examples:
+
+// Auth.php
+$trove = new Trove($consmerKey, $consumerSecret);
+$authUrl = $trove->buildAuthUrl();
+$_SESSION['secret'] = $trove->tokenSecret();
+
+
+// Accept.php
+$trove = new Trove($consmerKey, $consumerSecret);
+if($trove->acceptToken($_SESSION['secret'])) {
+	// These would be saved in the database, tied to the user currently attempting authentication
+	$_SESSION['token'] = $trove->token();
+	$_SESSION['secret'] = $trove->tokenSecret();
+}
+
+// ViewUser.php
+$trove = new Trove($consmerKey, $consumerSecret, $_SESSION['token'], $_SESSION['token_secret']);
+// Note: trove requires a trailing slash on these requests. In the future I want to have it auto detected, and appended if forgotten
+// Because when missed, you get a confusing 301 redirect which I currently do not tell curl to follow
+$user = json_decode($trove->get('user/'), true);
