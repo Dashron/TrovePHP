@@ -3,6 +3,7 @@ Examples:
 // Auth.php
 $trove = new Trove($consmerKey, $consumerSecret);
 $authUrl = $trove->buildAuthUrl();
+// This does not have to be in the session, but it does require a level of persistence. It will be used on the page where you accept the token
 $_SESSION['secret'] = $trove->tokenSecret();
 
 
